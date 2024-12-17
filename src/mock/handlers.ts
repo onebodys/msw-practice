@@ -9,3 +9,24 @@ export const handlers = [
 		});
 	}),
 ];
+
+// httpリクエストは `http` 名前空間を使用して傍受できる。http.get() / http.post() など
+// 2つ引数を必要する関数シグネチャを持つ
+// http.get(predicate, resolver)
+// predicate(string | RegExp) リクエストパス
+// resolver(Response resolver) リクエストに対するレスポンスを生成する関数
+http.get("/pets", ({ request, params, cookies }) => {
+	return HttpResponse.json(["Tom", "Jerry", "Spike"]);
+});
+
+export const handlers2 = [
+	// http.get("/pets", petResolver),
+	// http.post("https://api.github.com/repo", repoResolver),
+	// http.post("/users/*", userResolver),
+];
+
+// resolverを別で定義するパターン
+const petResolver = ({ request, params, cookies }) => {
+	return HttpResponse.json(["Tom", "Jerry", "Spike"]);
+};
+http.get("/pets2", petResolver);
