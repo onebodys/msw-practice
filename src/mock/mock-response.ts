@@ -1,6 +1,11 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
+	http.get("https://example.com/hello", () => {
+		return HttpResponse.json({
+			message: "Hello, World!",
+		});
+	}),
 	// MSWはFetch API標準で動くため、単にResponseを返しても良い
 	http.get("/resource", () => {
 		return new Response("Hello, World!");
