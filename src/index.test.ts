@@ -10,9 +10,13 @@ test("fetch app", async () => {
 
 test("fetch app with network error", async () => {
 	server.use(
-		http.get("https://example.com/hello", () => {
-			return HttpResponse.error();
-		}),
+		http.get(
+			"https://example.com/hello",
+			() => {
+				return HttpResponse.error();
+			},
+			{ once: true },
+		),
 	);
 	await expect(app()).rejects.toThrow("Network error");
 });
