@@ -1,11 +1,11 @@
 export async function app() {
-	const response = await fetch("https://example.com/hello");
-	const user = await response.json();
-	return user;
+	try {
+		const response = await fetch("https://example.com/hello");
+		const user = await response.json();
+		return user;
+	} catch (error) {
+		throw new Error("Network error");
+	}
 }
 
 app();
-
-export function sum(a: number, b: number) {
-	return a + b;
-}

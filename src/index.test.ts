@@ -1,11 +1,18 @@
 import { expect, test } from "vitest";
-import { sum, app } from "./index";
-
-test("add 1+ 2 to equal 3", () => {
-	expect(sum(1, 2)).toBe(3);
-});
+import { app } from "./index";
+import { server } from "./mock/node";
+import { HttpResponse, http } from "msw";
 
 test("fetch app", async () => {
 	const res = await app();
 	expect(res).toStrictEqual({ message: "Hello, World!" });
+});
+
+test("fetch app with network error", async () => {
+	server.use(
+		http.get("https://example.com/hello", () => {
+			return HttpResponse.error();
+		}),
+	);
+	await expect(app()).rejects.toThrow("Network error");
 });
