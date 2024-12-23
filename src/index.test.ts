@@ -3,7 +3,7 @@ import { app } from "./index";
 import { server } from "./mock/node";
 import { HttpResponse, http } from "msw";
 
-test("fetch app with network error", async () => {
+test("fetchしたらネットワークエラーが出るテスト", async () => {
 	server.use(
 		http.get("https://example.com/hello", () => {
 			return HttpResponse.error();
@@ -12,7 +12,7 @@ test("fetch app with network error", async () => {
 	await expect(app()).rejects.toThrow("Network error");
 });
 
-test("fetch app", async () => {
+test("fetchが正常になると、{ message: Hello, World! } が返る", async () => {
 	const res = await app();
 	expect(res).toStrictEqual({ message: "Hello, World!" });
 });
